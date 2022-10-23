@@ -49,6 +49,7 @@ spec:
             [ -n "${API_ADDR}" ] && sed -Ei "s|API_ADDR|${API_ADDR?}|g" /tmp/storageconfig.hcl;
             [ -n "${TRANSIT_ADDR}" ] && sed -Ei "s|TRANSIT_ADDR|${TRANSIT_ADDR?}|g" /tmp/storageconfig.hcl;
             [ -n "${RAFT_ADDR}" ] && sed -Ei "s|RAFT_ADDR|${RAFT_ADDR?}|g" /tmp/storageconfig.hcl;
+            cat /tmp/storageconfig.hcl;
             /usr/local/bin/docker-entrypoint.sh vault server -config=/tmp/storageconfig.hcl     
           securityContext:
             allowPrivilegeEscalation: false
@@ -57,6 +58,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: POD_IP
+              valueFrom:
+                  fieldRef:
+                      fieldPath: status.podIP
             - name: VAULT_ADDR
               value: "http://127.0.0.1:8200"
             - name: VAULT_API_ADDR
