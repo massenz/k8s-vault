@@ -1,7 +1,8 @@
-
+# Helm Chart default values
 
 name: vault
 vaultVersion: 1.12.2
+namespace: vault
 
 group: 1000
 user: 100

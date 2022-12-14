@@ -1,11 +1,9 @@
 #!/usr/bin/env zsh
 #
-# Deploys Vault to kubernetes
 # Created M. Massenzio, 2022-11-04
 #
 # Based on: https://devopscube.com/vault-in-kubernetes/
-
-#set -eu
+set -eu
 
 declare kexec='kubectl exec vault-0 --'
 declare vault="${kexec} vault"
@@ -31,7 +29,7 @@ eval $vault write auth/kubernetes/config \
 # Pods with this SA will be allowed to retrieve secrets from Vault
 kubectl create serviceaccount ${serviceaccount}
 
-# Create a policy to enable access to secres stored
+# Create a policy to enable access to secrets stored
 # in the KV store we just created.
 #
 # ALl the \\ escaping is due to the need to preserve quotes, but also

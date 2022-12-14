@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: vault
-  namespace: default
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -17,5 +17,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: vault
-  namespace: default
-
+  namespace: {{ .Values.namespace }}
+  

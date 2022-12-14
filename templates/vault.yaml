@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Values.name }}
-  namespace: default
+  namespace: {{ .Values.namespace }}
   labels:
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/instance: {{ .Values.name }}
@@ -24,25 +24,25 @@ spec:
       serviceAccountName: {{ .Values.name }}
       securityContext:
         runAsNonRoot: {{ .Values.runAsNonRoot }}
-        runAsGroup: {{ .Values.runAsGroup }}
-        runAsUser: {{ .Values.runAsUser }}
+        runAsGroup: {{ .Values.group }}
+        runAsUser: {{ .Values.user }}
         fsGroup: {{ .Values.fsGroup }}
       volumes:
         - name: config
           configMap:
-            name: {{ .Values.name }}-config
+            name: vault-config
         - name: home
           emptyDir: {}
       containers:
-        - name: {{ .Values.name }}          
+        - name: {{ .Values.name }}
           image: vault:{{ .Values.vaultVersion }}
           imagePullPolicy: IfNotPresent
           command:
           - "/bin/sh"
           - "-ec"
-          args: 
+          args:
           - |
-            cp /values/config/extraconfig-from-values.hcl /tmp/storageconfig.hcl;
+            cp /vault/config/extraconfig-from-values.hcl /tmp/storageconfig.hcl;
             [ -n "${HOST_IP}" ] && sed -Ei "s|HOST_IP|${HOST_IP?}|g" /tmp/storageconfig.hcl;
             [ -n "${POD_IP}" ] && sed -Ei "s|POD_IP|${POD_IP?}|g" /tmp/storageconfig.hcl;
             [ -n "${HOSTNAME}" ] && sed -Ei "s|HOSTNAME|${HOSTNAME?}|g" /tmp/storageconfig.hcl;
@@ -50,7 +50,7 @@ spec:
             [ -n "${TRANSIT_ADDR}" ] && sed -Ei "s|TRANSIT_ADDR|${TRANSIT_ADDR?}|g" /tmp/storageconfig.hcl;
             [ -n "${RAFT_ADDR}" ] && sed -Ei "s|RAFT_ADDR|${RAFT_ADDR?}|g" /tmp/storageconfig.hcl;
             cat /tmp/storageconfig.hcl;
-            /usr/local/bin/docker-entrypoint.sh {{ .Values.name }} server -config=/tmp/storageconfig.hcl     
+            /usr/local/bin/docker-entrypoint.sh {{ .Values.name }} server -config=/tmp/storageconfig.hcl
           securityContext:
             allowPrivilegeEscalation: false
           env:
