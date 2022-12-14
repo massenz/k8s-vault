@@ -1,0 +1,12 @@
+
+
+name: vault
+vaultVersion: 1.12.2
+
+group: 1000
+user: 100
+fsGroup: 1000
+
+runAsNonRoot: true
+
+DiskSize: 1Gi

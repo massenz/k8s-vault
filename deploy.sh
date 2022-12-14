@@ -6,15 +6,15 @@
 set -eu
 
 declare -a SPECS=(rbac configmap services statefulset)
-for spec in ${SPECS[@]}
+for spec in "${SPECS[@]}"
 do
-    kubectl apply -f vault-manifests/$spec.yaml
+    kubectl apply -f "vault-manifests/${spec}.yaml"
 done
 
 declare STATUS=""
-while [[ $STATUS != "Running" ]]; do
-    STATUS=$(kubectl get pods | egrep "^vault-0\s" | awk '{print $3}')
-    echo "Waiting for Vault Pod to start ($STATUS)..."
+while [[ ${STATUS} != "Running" ]]; do
+    STATUS=$(kubectl get pods | grep -E "^vault-0\s" | awk '{print $3}')
+    echo "Waiting for Vault Pod to start (${STATUS})..."
     sleep 3
 done
 

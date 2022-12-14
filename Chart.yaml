@@ -1,0 +1,22 @@
+# Vault installation Helm Chart
+# Created by M. Massenzio, 2022-12-13
+
+apiVersion: v2
+name: simple-vault
+version: 0.0.2
+description: "Deploys a single-instance Hashicorp Vault server"
+type: application
+keywords:
+  - vault
+  - secrets
+home: https://github.com/massenz/k8s-vault
+icon: http://alertavert.com.s3-website-us-west-2.amazonaws.com/AlertAvert-icon-small.png
+sources:
+  - https://github.com/massenz/k8s-vault
+maintainers: # (optional)
+  - name: Marco Massenzio
+    email: marco@alertavert.com
+    url: https://github.com/massenz
+appVersion: "1.12.2"
+annotations:
+  alertavert.com/kubernetes/vault: true
