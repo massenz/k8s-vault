@@ -3,7 +3,7 @@
 
 apiVersion: v2
 name: simple-vault
-version: 0.0.8
+version: 0.0.10
 description: "Deploys a single-instance Hashicorp Vault server"
 type: application
 keywords:
