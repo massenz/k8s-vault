@@ -2,11 +2,13 @@
 #
 # Deploys Vault to kubernetes
 # Created M. Massenzio, 2022-10-22
-
+#
+# Unsealing the Vault and extracting the token
+# Before running this, install the Helm Chart:
+#
+#  kubectl create namespace vault
+#  helm install dev-vault . --namespace vault
 set -eu
-
-kubectl create namespace vault
-helm install dev-vault . --namespace vault
 
 if ! kubectl exec -n vault vault-0 -- vault operator init -status >/dev/null
 then

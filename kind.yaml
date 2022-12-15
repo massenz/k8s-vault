@@ -5,5 +5,5 @@ nodes:
   extraPortMappings:
   - containerPort: 32000
     hostPort: 32000
-    listenAddress: "0.0.0.0" # Optional, defaults to "0.0.0.0"
-    protocol: udp # Optional, defaults to tcp
+    listenAddress: "0.0.0.0"
+    protocol: tcp
