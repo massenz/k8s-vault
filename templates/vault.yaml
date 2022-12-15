@@ -35,7 +35,7 @@ spec:
           emptyDir: {}
       containers:
         - name: {{ .Values.name }}
-          image: vault:{{ .Values.vaultVersion }}
+          image: "vault:{{ .Values.vaultVersion }}"
           imagePullPolicy: IfNotPresent
           command:
           - "/bin/sh"

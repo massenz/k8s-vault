@@ -5,8 +5,8 @@
 
 set -eu
 
-#kubectl create namespace vault
-#helm install dev-vault . --namespace vault
+kubectl create namespace vault
+helm install dev-vault . --namespace vault
 
 if ! kubectl exec -n vault vault-0 -- vault operator init -status >/dev/null
 then
