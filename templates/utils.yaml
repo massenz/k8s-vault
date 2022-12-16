@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: utils
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: utils
+    app.kubernetes.io/instance: utils
+spec:
+  os:
+    name: linux
+  restartPolicy: OnFailure
+  containers:
+    - name: utils
+      image: "massenz/dnsutils:{{ .Values.utilsVersion }}"
+      imagePullPolicy: IfNotPresent
+      command:
+      - "sleep"
+      args:
+      - "infinity"
+      readinessProbe:
+        exec:
+          command: ["echo", "$SHELL"]
+        failureThreshold: 2
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        successThreshold: 1
+        timeoutSeconds: 3

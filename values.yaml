@@ -1,13 +1,15 @@
 # Helm Chart default values
 
+# Pods/Containers values
 name: vault
 vaultVersion: 1.12.2
-namespace: vault
+utilsVersion: 2.3.1
 
+# Security settings
+runAsNonRoot: true
 group: 1000
 user: 100
 fsGroup: 1000
 
-runAsNonRoot: true
-
+# Resource requests
 DiskSize: 1Gi
