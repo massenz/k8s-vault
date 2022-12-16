@@ -1,29 +1,39 @@
-# kubernetes-vault
+# Simple Vault
 
-*Kubernetes manifests to setup Hashicorp vault server*
+*Helm Chart to install and initialize Hashicorp Vault server in Kubernetes*
 
 [Full Documentation](https://devopscube.com/vault-in-kubernetes/)
 
 ## Deploy & Configure
 
-Use the following scripts to deploy the necessary kubernetes resources and initialize Vault:
+This is a standard [Helm chart](https://helm.sh/docs/topics/charts/) that installs [Hashicorp Vault](https://www.vaultproject.io/) in a Kubernetes cluster (we recommend the use of [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/) for local development).
 
-```
-./deploy.sh
-./setup.sh
-```
+Use:
 
-the configuration and auth tokens will be saved to `keys.json`.
-
-## Test access
-
-Clone the [`k8s-web-config`](https://github.com/massenz/k8s-web-config) repository, and run the `utils` Pod:
-
-```
-kubectl apply -f spect/utils.yaml
+```shell
+ helm install sec-vault . --namespace vault
 ```
 
-from the pod, run a POST command:
+to install the necessary resources in the `vault` namespace (the `Release.namespace` value is used in the templates, so choosing a different one should work just fine).
+
+**`TODO`** 
+> Currently unsealing the Vault and setting up the cluster is still a manual process.
+>
+> See the `scripts/unseal.sh` and `setup.sh` scripts.
+
+## Debugging
+
+The Helm chart can be debugged using the `template` and `install --dry-run` commands:
+
+```shell
+# To view the templates' output:
+helm template --debug . | less
+
+# To inspect what happens on the cluster, without actually installing the release:
+helm install --dry-run --debug test-release .
+```
+
+This chart also deploys the [`dnsutils`](https://github.com/massenz/dnsutils) container, which can be accessed via `kubectl exec -it utils`; for example, from the pod, run a POST command:
 
 ```
 kubectl exec -it utils -- /bin/bash
