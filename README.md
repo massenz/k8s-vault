@@ -33,7 +33,7 @@ helm template --debug . | less
 helm install --dry-run --debug test-release .
 ```
 
-This chart also deploys the [`dnsutils`](https://github.com/massenz/dnsutils) container, which can be accessed via `kubectl exec -it utils`; for example, from the pod, run a POST command:
+This chart also deploys the [`dnsutils`](https://github.com/massenz/dnsutils) [container](https://hub.docker.com/repository/docker/massenz/dnsutils), which can be accessed via `kubectl exec -it utils`; for example, from the pod, run a POST command:
 
 ```
 kubectl exec -it utils -- /bin/bash

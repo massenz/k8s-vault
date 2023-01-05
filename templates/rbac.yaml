@@ -2,14 +2,18 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Values.name }}-auth
+  name: vault-auth
   namespace: {{ .Release.Namespace }}
 
+{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRoleBinding" "" .Values.ClusterRolename) }}
 ---
+# ClusterRoleBinding for RBAC, only deployed once in the
+# cluster, it will skip if it already exists
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: vault-server-binding
+    name: {{ .Values.ClusterRolename }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -18,4 +22,4 @@ subjects:
   - kind: ServiceAccount
     name: vault-auth
     namespace: {{ .Release.Namespace }}
-  
+{{- end }}

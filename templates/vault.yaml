@@ -67,15 +67,15 @@ spec:
                   fieldRef:
                       fieldPath: status.podIP
             - name: VAULT_ADDR
-              value: "http://127.0.0.1:8200"
+              value: "http://127.0.0.1:{{ .Values.vaultPort }}"
             - name: VAULT_API_ADDR
-              value: "http://$(POD_IP):8200"
+              value: "http://$(POD_IP):{{ .Values.vaultPort }}"
             - name: SKIP_CHOWN
               value: "true"
             - name: SKIP_SETCAP
               value: "true"
             - name: VAULT_CLUSTER_ADDR
-              value: "https://$(HOSTNAME).{{ .Values.name }}-internal:8201"
+              value: "https://$(HOSTNAME).{{ .Values.name }}-internal:{{ .Values.vaultInternalPort }}"
             - name: HOME
               value: "/home/vault"
           volumeMounts:
@@ -86,9 +86,9 @@ spec:
             - name: home
               mountPath: /home/vault
           ports:
-            - containerPort: 8200
+            - containerPort: {{ .Values.vaultPort }}
               name: http
-            - containerPort: 8201
+            - containerPort: {{ .Values.vaultInternalPort }}
               name: https-internal
             - containerPort: 8202
               name: http-rep

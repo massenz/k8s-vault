@@ -3,9 +3,14 @@
 # Pods/Containers values
 name: vault
 vaultVersion: 1.12.2
+vaultPort: 8200
+vaultInternalPort: 8201
+nodePort: 32000
+
 utilsVersion: 2.3.1
 
 # Security settings
+ClusterRolename: vault-cluster-role
 runAsNonRoot: true
 group: 1000
 user: 100
